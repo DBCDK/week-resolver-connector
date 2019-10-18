@@ -65,6 +65,21 @@ public class WeekresolverConnector {
                 baseUrl, "baseUrl");
     }
 
+    public WeekResolverResult getWeekCode(String catalogueCode) throws WeekresolverConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            Params params = new Params()
+                    .withCatalogueCode(catalogueCode)
+                    .withDate(LocalDate.now());
+
+            return sendRequest(params);
+        }
+        finally {
+            LOGGER.info("getWeekCode took {} ms", stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+
+        }
+    }
+
     public WeekResolverResult getWeekCode(String catalogueCode, LocalDate date) throws WeekresolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
