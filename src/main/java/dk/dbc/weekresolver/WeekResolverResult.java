@@ -36,20 +36,16 @@ public class WeekResolverResult {
 
     public WeekResolverResult() {}
 
-    private WeekResolverResult(LocalDate localDate, ZoneId zoneId) {
+    private WeekResolverResult(LocalDate localDate, ZoneId zoneId, String catalogueCode) {
         this.date = Date.from(localDate.atStartOfDay(zoneId).toInstant());
         this.weekNumber=Integer.parseInt(localDate.format(DateTimeFormatter.ofPattern("w")));
         this.year=Integer.parseInt(localDate.format(DateTimeFormatter.ofPattern("YYYY")));
         this.weekCode=catalogueCode+year+String.format("%02d", weekNumber);
+        this.catalogueCode=catalogueCode;
     }
 
-    public static WeekResolverResult create(LocalDate localDate, ZoneId zoneId) {
-        return new WeekResolverResult(localDate, zoneId);
-    }
-
-    public WeekResolverResult withCatalogueCode(String catalogueCode) {
-        this.catalogueCode = catalogueCode;
-        return this;
+    public static WeekResolverResult create(LocalDate localDate, ZoneId zoneId, String catalogueCode) {
+        return new WeekResolverResult(localDate, zoneId, catalogueCode);
     }
 
     public int getWeekNumber() {
