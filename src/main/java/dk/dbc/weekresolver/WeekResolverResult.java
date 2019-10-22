@@ -56,6 +56,10 @@ public class WeekResolverResult {
         return year;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
 
     public String getCatalogueCode() {
         return catalogueCode;
