@@ -52,15 +52,15 @@ public class WeekresolverConnectorTest {
     @Test
     public void testGetWeekcode() throws WeekresolverConnectorException {
         WeekResolverResult weekResolverResult =
-                connector.getWeekCode("bpf", LocalDate.parse("2019-10-10"));
-        assertThat(weekResolverResult.getCatalogueCode(), is("BPF"));
-        assertThat(weekResolverResult.getWeekCode(), is("BPF201941"));
+                connector.getWeekCode("dpf", LocalDate.parse("2019-10-10"));
+        assertThat(weekResolverResult.getCatalogueCode(), is("DPF"));
+        assertThat(weekResolverResult.getWeekCode(), is("DPF201943"));
         assertThat(weekResolverResult.getYear(), is(2019));
 
         WeekResolverResult weekResolverResult1 =
-                connector.getWeekCode("bpf", LocalDate.parse("2019-12-31"));
-        assertThat(weekResolverResult1.getCatalogueCode(), is("BPF"));
-        assertThat(weekResolverResult1.getWeekCode(), is("BPF202001"));
+                connector.getWeekCode("dpf", LocalDate.parse("2019-12-31"));
+        assertThat(weekResolverResult1.getCatalogueCode(), is("DPF"));
+        assertThat(weekResolverResult1.getWeekCode(), is("DPF202003"));
         assertThat(weekResolverResult1.getYear(), is(2020));
 
         assertThrows(NullPointerException.class, () ->
