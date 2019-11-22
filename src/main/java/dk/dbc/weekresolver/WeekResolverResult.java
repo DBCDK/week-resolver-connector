@@ -6,11 +6,14 @@
 package dk.dbc.weekresolver;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Result data from resolving a weeknumber by use of a specific catalogue code
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeekResolverResult {
+
     // Calculated week number
     private int weekNumber;
 
@@ -22,7 +25,6 @@ public class WeekResolverResult {
 
     // Calculated weekcode
     private String weekCode;
-
 
     // The first possible date of release, adjusted for weeks into the future, shiftday and closing days
     // This is the date that is used to give the weeknumber and year - NOT the date that should be used
@@ -43,21 +45,31 @@ public class WeekResolverResult {
         return new WeekResolverResult(date, weekNumber, year, weekCode, catalogueCode);
     }
 
+    public void setWeekNumber(int weekNumber) { this.weekNumber = weekNumber; }
+
     public int getWeekNumber() {
         return weekNumber;
     }
+
+    public void setYear(int year) { this.year = year; }
 
     public int getYear() {
         return year;
     }
 
+    public void setDate(Date date) { this.date = date; }
+
     public Date getDate() {
         return date;
     }
 
+    public void setCatalogueCode(String catalogueCode) { this.catalogueCode = catalogueCode; }
+
     public String getCatalogueCode() {
         return catalogueCode;
     }
+
+    public void setWeekCode(String weekCode) { this.weekCode = weekCode; }
 
     public String getWeekCode() { return weekCode; }
 
