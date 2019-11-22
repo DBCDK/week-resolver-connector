@@ -39,8 +39,8 @@ public class WeekresolverConnector {
                     response.getStatus() == 404
                             || response.getStatus() == 500
                             || response.getStatus() == 502)
-            .withDelay(10, TimeUnit.SECONDS)
-            .withMaxRetries(6);
+            .withDelay(5, TimeUnit.SECONDS)
+            .withMaxRetries(3);
 
     private final FailSafeHttpClient failSafeHttpClient;
     private final String baseUrl;
