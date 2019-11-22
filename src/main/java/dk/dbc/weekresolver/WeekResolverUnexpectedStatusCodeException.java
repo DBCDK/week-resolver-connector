@@ -5,7 +5,7 @@
 
 package dk.dbc.weekresolver;
 
-public class WeekresolverUnexpectedStatusCodeException extends WeekresolverConnectorException {
+public class WeekResolverUnexpectedStatusCodeException extends WeekResolverConnectorException {
     private final int statusCode;
 
     /**
@@ -19,7 +19,7 @@ public class WeekresolverUnexpectedStatusCodeException extends WeekresolverConne
      *
      * @param statusCode the http status code returned by the REST service
      */
-    public WeekresolverUnexpectedStatusCodeException(String message, int statusCode) {
+    public WeekResolverUnexpectedStatusCodeException(String message, int statusCode) {
         super(message);
         this.statusCode = statusCode;
     }

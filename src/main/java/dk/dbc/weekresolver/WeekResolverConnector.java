@@ -8,7 +8,9 @@ package dk.dbc.weekresolver;
 import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpGet;
 import dk.dbc.invariant.InvariantUtil;
+
 import java.time.LocalDate;
+
 import net.jodah.failsafe.RetryPolicy;
 
 import javax.ws.rs.ProcessingException;
@@ -16,6 +18,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+
 import dk.dbc.util.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +33,8 @@ import org.slf4j.LoggerFactory;
  * This class is thread safe, as long as the given web resources client remains thread safe.
  * </p>
  */
-public class WeekresolverConnector {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeekresolverConnector.class);
+public class WeekResolverConnector {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeekResolverConnector.class);
     public static final String WEEKRESOLVER_URI_AND_PARMS = "api/v1/date/%s/%s";
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
@@ -45,8 +48,7 @@ public class WeekresolverConnector {
     private final FailSafeHttpClient failSafeHttpClient;
     private final String baseUrl;
 
-    public WeekresolverConnector(Client httpClient, String baseUrl)
-            throws WeekresolverConnectorException {
+    public WeekResolverConnector(Client httpClient, String baseUrl) {
         this(FailSafeHttpClient.create(httpClient, RETRY_POLICY), baseUrl);
     }
 
@@ -55,17 +57,16 @@ public class WeekresolverConnector {
      *
      * @param failSafeHttpClient web resources client with custom retry policy
      * @param baseUrl            base URL for record service endpoint
-     * @throws WeekresolverConnectorException on failure to create {@link WeekresolverConnector}
+     * @throws WeekResolverConnectorException on failure to create {@link WeekResolverConnector}
      */
-    public WeekresolverConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl)
-            throws WeekresolverConnectorException {
+    public WeekResolverConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl) {
         this.failSafeHttpClient = InvariantUtil.checkNotNullOrThrow(
                 failSafeHttpClient, "failSafeHttpClient");
         this.baseUrl = InvariantUtil.checkNotNullNotEmptyOrThrow(
                 baseUrl, "baseUrl");
     }
 
-    public WeekResolverResult getWeekCode(String catalogueCode) throws WeekresolverConnectorException {
+    public WeekResolverResult getWeekCode(String catalogueCode) throws WeekResolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             Params params = new Params()
@@ -73,14 +74,13 @@ public class WeekresolverConnector {
                     .withDate(LocalDate.now());
 
             return sendRequest(params);
-        }
-        finally {
+        } finally {
             LOGGER.info("getWeekCode took {} ms", stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
 
         }
     }
 
-    public WeekResolverResult getWeekCode(String catalogueCode, LocalDate date) throws WeekresolverConnectorException {
+    public WeekResolverResult getWeekCode(String catalogueCode, LocalDate date) throws WeekResolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             Params params = new Params()
@@ -88,8 +88,7 @@ public class WeekresolverConnector {
                     .withDate(date);
 
             return sendRequest(params);
-        }
-        finally {
+        } finally {
             LOGGER.info("getWeekCode took {} ms", stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
 
         }
@@ -99,7 +98,7 @@ public class WeekresolverConnector {
         failSafeHttpClient.getClient().close();
     }
 
-    private WeekResolverResult sendRequest(Params params) throws WeekresolverConnectorException {
+    private WeekResolverResult sendRequest(Params params) throws WeekResolverConnectorException {
         final HttpGet httpGet = new HttpGet(failSafeHttpClient)
                 .withBaseUrl(String.format("%s/%s", baseUrl, params.toString()));
         final Response response = httpGet.execute();
@@ -112,7 +111,8 @@ public class WeekresolverConnector {
         private LocalDate date;
 
         public Params withCatalogueCode(String catalogueCode) {
-            this.catalogueCode = InvariantUtil.checkNotNullOrThrow(catalogueCode, "catalogueCode");;
+            this.catalogueCode = InvariantUtil.checkNotNullOrThrow(catalogueCode, "catalogueCode");
+            ;
             return this;
         }
 
@@ -121,26 +121,26 @@ public class WeekresolverConnector {
             return this;
         }
 
-        public String toString(){
+        public String toString() {
             return String.format(WEEKRESOLVER_URI_AND_PARMS, catalogueCode, date);
         }
     }
 
 
-    private WeekResolverResult readResponseEntity(Response response) throws WeekresolverConnectorException {
+    private WeekResolverResult readResponseEntity(Response response) throws WeekResolverConnectorException {
         final WeekResolverResult entity = response.readEntity(WeekResolverResult.class);
         if (entity == null) {
-            throw new WeekresolverConnectorException("Weekresolver service returned with null-valued %s entity");
+            throw new WeekResolverConnectorException("Weekresolver service returned with null-valued %s entity");
         }
         return entity;
     }
 
     private void assertResponseStatus(Response response, Response.Status expectedStatus)
-            throws WeekresolverUnexpectedStatusCodeException {
+            throws WeekResolverUnexpectedStatusCodeException {
         final Response.Status actualStatus =
                 Response.Status.fromStatusCode(response.getStatus());
         if (actualStatus != expectedStatus) {
-            throw new WeekresolverUnexpectedStatusCodeException(
+            throw new WeekResolverUnexpectedStatusCodeException(
                     String.format("Weekresolver service returned with unexpected status code: %s",
                             actualStatus), actualStatus.getStatusCode());
         }
