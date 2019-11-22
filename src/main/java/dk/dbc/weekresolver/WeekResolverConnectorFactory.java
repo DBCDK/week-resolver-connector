@@ -7,6 +7,8 @@ package dk.dbc.weekresolver;
 
 import dk.dbc.httpclient.HttpClient;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,32 +45,33 @@ import javax.ws.rs.client.Client;
  * </p>
  */
 @ApplicationScoped
-public class WeekresolverConnectorFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeekresolverConnectorFactory.class);
+public class WeekResolverConnectorFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeekResolverConnectorFactory.class);
 
-    public static WeekresolverConnector create(String baseUrl) throws WeekresolverConnectorException {
-        final Client client = HttpClient.newClient();
+    public static WeekResolverConnector create(String baseUrl) throws WeekResolverConnectorException {
+        final Client client = HttpClient.newClient(new ClientConfig()
+                .register(new JacksonFeature()));
         LOGGER.info("Creating WeekresolverConnector for: {}", baseUrl);
-        return new WeekresolverConnector(client, baseUrl);
+        return new WeekResolverConnector(client, baseUrl);
     }
 
     @Inject
     @ConfigProperty(name = "WEEKRESOLVER_SERVICE_URL")
     private String baseUrl;
 
-    WeekresolverConnector weekresolverconnector;
+    WeekResolverConnector weekresolverconnector;
 
     @PostConstruct
     public void initializeConnector() {
         try {
-            weekresolverconnector = WeekresolverConnectorFactory.create(baseUrl);
-        } catch (WeekresolverConnectorException e) {
+            weekresolverconnector = WeekResolverConnectorFactory.create(baseUrl);
+        } catch (WeekResolverConnectorException e) {
             throw new IllegalStateException(e);
         }
     }
 
     @Produces
-    public WeekresolverConnector getInstance() {
+    public WeekResolverConnector getInstance() {
         return weekresolverconnector;
     }
 
