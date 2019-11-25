@@ -6,7 +6,11 @@ package dk.dbc.weekresolver;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
+
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
+
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;
@@ -21,13 +25,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class WeekresolverConnectorTest {
+public class WeekResolverConnectorTest {
     private static WireMockServer wireMockServer;
     private static String wireMockHost;
 
     final static Client CLIENT = HttpClient.newClient(new ClientConfig()
             .register(new JacksonFeature()));
-    static WeekresolverConnector connector;
+    static WeekResolverConnector connector;
 
     @BeforeAll
     static void startWireMockServer() {
@@ -40,8 +44,8 @@ public class WeekresolverConnectorTest {
     }
 
     @BeforeAll
-    static void setConnector() throws WeekresolverConnectorException {
-        connector = new WeekresolverConnector(CLIENT, wireMockHost);
+    static void setConnector() throws WeekResolverConnectorException {
+        connector = new WeekResolverConnector(CLIENT, wireMockHost);
     }
 
     @AfterAll
@@ -50,18 +54,25 @@ public class WeekresolverConnectorTest {
     }
 
     @Test
-    public void testGetWeekcode() throws WeekresolverConnectorException {
+    public void testGetWeekcode() throws WeekResolverConnectorException {
+        Instant instant = Instant.ofEpochMilli(1576191600000L);
+        Date date = Date.from(instant);
+
         WeekResolverResult weekResolverResult =
-                connector.getWeekCode("dpf", LocalDate.parse("2019-10-10"));
+                connector.getWeekCode("DPF", LocalDate.parse("2019-10-10"));
+        assertThat(weekResolverResult.getWeekNumber(), is(43));
         assertThat(weekResolverResult.getCatalogueCode(), is("DPF"));
         assertThat(weekResolverResult.getWeekCode(), is("DPF201943"));
         assertThat(weekResolverResult.getYear(), is(2019));
+        assertThat(weekResolverResult.getDate(), is(date));
 
         WeekResolverResult weekResolverResult1 =
-                connector.getWeekCode("dpf", LocalDate.parse("2019-12-31"));
+                connector.getWeekCode("DPF", LocalDate.parse("2019-12-31"));
+        assertThat(weekResolverResult.getWeekNumber(), is(43));
         assertThat(weekResolverResult1.getCatalogueCode(), is("DPF"));
         assertThat(weekResolverResult1.getWeekCode(), is("DPF202003"));
         assertThat(weekResolverResult1.getYear(), is(2020));
+        assertThat(weekResolverResult1.getDate(), is(date));
 
         assertThrows(NullPointerException.class, () ->
                 connector.getWeekCode(null, null));

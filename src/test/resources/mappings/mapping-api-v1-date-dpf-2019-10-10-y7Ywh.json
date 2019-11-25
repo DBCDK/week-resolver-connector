@@ -1,7 +1,7 @@
 {
   "id" : "406f0177-4fa8-38d3-a730-3fbc382019ed",
   "request" : {
-    "url" : "/api/v1/date/dpf/2019-10-10",
+    "url" : "/api/v1/date/DPF/2019-10-10",
     "method" : "GET"
   },
   "response" : {

@@ -5,12 +5,12 @@
 
 package dk.dbc.weekresolver;
 
-public class WeekresolverConnectorException extends Exception {
-    public WeekresolverConnectorException(String message) {
+public class WeekResolverConnectorException extends Exception {
+    public WeekResolverConnectorException(String message) {
         super(message);
     }
 
-    public WeekresolverConnectorException(String message, Throwable cause) {
+    public WeekResolverConnectorException(String message, Throwable cause) {
         super(message, cause);
     }
 }
