@@ -9,6 +9,7 @@ import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpGet;
 import dk.dbc.invariant.InvariantUtil;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 import net.jodah.failsafe.RetryPolicy;
@@ -36,13 +37,12 @@ import org.slf4j.LoggerFactory;
 public class WeekResolverConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(WeekResolverConnector.class);
     public static final String WEEKRESOLVER_URI_AND_PARMS = "api/v1/date/%s/%s";
-    private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
-            .retryOn(Collections.singletonList(ProcessingException.class))
-            .retryIf((Response response) ->
-                    response.getStatus() == 404
-                            || response.getStatus() == 500
-                            || response.getStatus() == 502)
-            .withDelay(5, TimeUnit.SECONDS)
+    private static final RetryPolicy<Response> RETRY_POLICY = new RetryPolicy<Response>()
+            .handle(ProcessingException.class)
+            .handleResultIf(response -> response.getStatus() == 404
+                    || response.getStatus() == 500
+                    || response.getStatus() == 502)
+            .withDelay(Duration.ofSeconds(5))
             .withMaxRetries(3);
 
     private final FailSafeHttpClient failSafeHttpClient;
