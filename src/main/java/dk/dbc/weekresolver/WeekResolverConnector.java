@@ -1,8 +1,3 @@
-/*
- * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
- * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
- */
-
 package dk.dbc.weekresolver;
 
 import dk.dbc.httpclient.FailSafeHttpClient;
@@ -14,10 +9,9 @@ import java.time.LocalDate;
 
 import net.jodah.failsafe.RetryPolicy;
 
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
-import java.util.Collections;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 import java.util.concurrent.TimeUnit;
 
 import dk.dbc.util.Stopwatch;
