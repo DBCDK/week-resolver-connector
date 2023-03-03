@@ -106,7 +106,6 @@ public class WeekResolverConnector {
 
         public Params withCatalogueCode(String catalogueCode) {
             this.catalogueCode = InvariantUtil.checkNotNullOrThrow(catalogueCode, "catalogueCode");
-            ;
             return this;
         }
 
