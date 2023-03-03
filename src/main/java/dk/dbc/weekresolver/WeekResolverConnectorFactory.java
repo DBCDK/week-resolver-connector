@@ -21,7 +21,7 @@ import jakarta.ws.rs.client.Client;
  * </p>
  * <pre>
  *    // New instance
- *    WeekresolverConnector connector = WeekresolverConnectorFactory.create("http://weekresolver-service");
+ *    WeekresolverConnector connector = WeekresolverConnectorFactory.create("<a href="http://weekresolver-service">...</a>");
  *
  *    // Singleton instance in CDI enabled environment
  *    {@literal @}Inject

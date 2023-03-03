@@ -40,7 +40,7 @@ public class WeekResolverConnectorTest {
     }
 
     @BeforeAll
-    static void setConnector() throws WeekResolverConnectorException {
+    static void setConnector() {
         connector = new WeekResolverConnector(CLIENT, wireMockHost);
     }
 

@@ -22,6 +22,7 @@ public class WeekResolverUnexpectedStatusCodeException extends WeekResolverConne
     /**
      * @return the status code
      */
+    @SuppressWarnings("unused")
     public int getStatusCode() {
         return statusCode;
     }

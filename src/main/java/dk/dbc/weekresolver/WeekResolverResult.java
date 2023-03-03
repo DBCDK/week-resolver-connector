@@ -27,8 +27,7 @@ public class WeekResolverResult {
     // for other date fields, it only relates to the weekcode being calculated
     private Date date;
 
-    public WeekResolverResult() {
-    }
+    public WeekResolverResult() {}
 
     private WeekResolverResult(Date date, int weekNumber, int year, String weekCode, String catalogueCode) {
         this.date = date;
@@ -38,10 +37,12 @@ public class WeekResolverResult {
         this.catalogueCode = catalogueCode;
     }
 
+    @SuppressWarnings("unused")
     public static WeekResolverResult create(Date date, int weekNumber, int year, String weekCode, String catalogueCode) {
         return new WeekResolverResult(date, weekNumber, year, weekCode, catalogueCode);
     }
 
+    @SuppressWarnings("unused")
     public void setWeekNumber(int weekNumber) {
         this.weekNumber = weekNumber;
     }
@@ -50,6 +51,7 @@ public class WeekResolverResult {
         return weekNumber;
     }
 
+    @SuppressWarnings("unused")
     public void setYear(int year) {
         this.year = year;
     }
@@ -58,6 +60,7 @@ public class WeekResolverResult {
         return year;
     }
 
+    @SuppressWarnings("unused")
     public void setDate(Date date) {
         this.date = date;
     }
@@ -66,6 +69,7 @@ public class WeekResolverResult {
         return date;
     }
 
+    @SuppressWarnings("unused")
     public void setCatalogueCode(String catalogueCode) {
         this.catalogueCode = catalogueCode;
     }
@@ -74,6 +78,7 @@ public class WeekResolverResult {
         return catalogueCode;
     }
 
+    @SuppressWarnings("unused")
     public void setWeekCode(String weekCode) {
         this.weekCode = weekCode;
     }

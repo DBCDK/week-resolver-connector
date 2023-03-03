@@ -51,7 +51,6 @@ public class WeekResolverConnector {
      *
      * @param failSafeHttpClient web resources client with custom retry policy
      * @param baseUrl            base URL for record service endpoint
-     * @throws WeekResolverConnectorException on failure to create {@link WeekResolverConnector}
      */
     public WeekResolverConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl) {
         this.failSafeHttpClient = InvariantUtil.checkNotNullOrThrow(
@@ -60,6 +59,7 @@ public class WeekResolverConnector {
                 baseUrl, "baseUrl");
     }
 
+    @SuppressWarnings("unused")
     public WeekResolverResult getWeekCode(String catalogueCode) throws WeekResolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -96,7 +96,7 @@ public class WeekResolverConnector {
         final HttpGet httpGet = new HttpGet(failSafeHttpClient)
                 .withBaseUrl(String.format("%s/%s", baseUrl, params.toString()));
         final Response response = httpGet.execute();
-        assertResponseStatus(response, Response.Status.OK);
+        assertResponseStatus(response);
         return readResponseEntity(response);
     }
 
@@ -128,11 +128,11 @@ public class WeekResolverConnector {
         return entity;
     }
 
-    private void assertResponseStatus(Response response, Response.Status expectedStatus)
+    private void assertResponseStatus(Response response)
             throws WeekResolverUnexpectedStatusCodeException {
         final Response.Status actualStatus =
                 Response.Status.fromStatusCode(response.getStatus());
-        if (actualStatus != expectedStatus) {
+        if (actualStatus != Response.Status.OK) {
             throw new WeekResolverUnexpectedStatusCodeException(
                     String.format("Weekresolver service returned with unexpected status code: %s",
                             actualStatus), actualStatus.getStatusCode());
