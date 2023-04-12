@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 public class WeekResolverConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(WeekResolverConnector.class);
-    public static final String WEEKRESOLVER_URI_AND_PARMS = "api/v1/date/%s/%s";
     private static final RetryPolicy<Response> RETRY_POLICY = new RetryPolicy<Response>()
             .handle(ProcessingException.class)
             .handleResultIf(response -> response.getStatus() == 404
@@ -61,11 +60,17 @@ public class WeekResolverConnector {
 
     @SuppressWarnings("unused")
     public WeekResolverResult getWeekCode(String catalogueCode) throws WeekResolverConnectorException {
+        return getWeekCodeForDate(catalogueCode, LocalDate.now());
+    }
+
+    public WeekResolverResult getWeekCodeForDate(String catalogueCode, LocalDate date) throws WeekResolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             Params params = new Params()
+                    .withBaseUrl(baseUrl)
+                    .withPath("date")
                     .withCatalogueCode(catalogueCode)
-                    .withDate(LocalDate.now());
+                    .withDate(date);
 
             return sendRequest(params);
         } finally {
@@ -74,10 +79,17 @@ public class WeekResolverConnector {
         }
     }
 
-    public WeekResolverResult getWeekCode(String catalogueCode, LocalDate date) throws WeekResolverConnectorException {
+    @SuppressWarnings("unused")
+    public WeekResolverResult getCurrentWeekCode(String catalogueCode) throws WeekResolverConnectorException {
+        return getCurrentWeekCodeForDate(catalogueCode, LocalDate.now());
+    }
+
+    public WeekResolverResult getCurrentWeekCodeForDate(String catalogueCode, LocalDate date) throws WeekResolverConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             Params params = new Params()
+                    .withBaseUrl(baseUrl)
+                    .withPath("current")
                     .withCatalogueCode(catalogueCode)
                     .withDate(date);
 
@@ -94,15 +106,27 @@ public class WeekResolverConnector {
 
     private WeekResolverResult sendRequest(Params params) throws WeekResolverConnectorException {
         final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                .withBaseUrl(String.format("%s/%s", baseUrl, params.toString()));
+                .withBaseUrl(String.format(params.toString()));
         final Response response = httpGet.execute();
         assertResponseStatus(response);
         return readResponseEntity(response);
     }
 
     public static class Params {
+        private String baseUrl;
+        private String path;
         private String catalogueCode;
         private LocalDate date;
+
+        public Params withBaseUrl(String baseUrl) {
+            this.baseUrl = InvariantUtil.checkNotNullOrThrow(baseUrl, "baseUrl");;
+            return this;
+        }
+
+        public Params withPath(String path) {
+            this.path = InvariantUtil.checkNotNullOrThrow(path, "path");;
+            return this;
+        }
 
         public Params withCatalogueCode(String catalogueCode) {
             this.catalogueCode = InvariantUtil.checkNotNullOrThrow(catalogueCode, "catalogueCode");
@@ -115,7 +139,7 @@ public class WeekResolverConnector {
         }
 
         public String toString() {
-            return String.format(WEEKRESOLVER_URI_AND_PARMS, catalogueCode, date);
+            return String.format("%s/api/v1/%s/%s/%s", baseUrl, path, catalogueCode, date);
         }
     }
 

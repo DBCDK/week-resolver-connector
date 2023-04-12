@@ -55,7 +55,7 @@ public class WeekResolverConnectorTest {
         Date date = Date.from(instant);
 
         WeekResolverResult weekResolverResult =
-                connector.getWeekCode("DPF", LocalDate.parse("2019-10-10"));
+                connector.getWeekCodeForDate("DPF", LocalDate.parse("2019-10-10"));
         assertThat(weekResolverResult.getWeekNumber(), is(43));
         assertThat(weekResolverResult.getCatalogueCode(), is("DPF"));
         assertThat(weekResolverResult.getWeekCode(), is("DPF201943"));
@@ -63,7 +63,7 @@ public class WeekResolverConnectorTest {
         assertThat(weekResolverResult.getDate(), is(date));
 
         WeekResolverResult weekResolverResult1 =
-                connector.getWeekCode("DPF", LocalDate.parse("2019-12-31"));
+                connector.getWeekCodeForDate("DPF", LocalDate.parse("2019-12-31"));
         assertThat(weekResolverResult.getWeekNumber(), is(43));
         assertThat(weekResolverResult1.getCatalogueCode(), is("DPF"));
         assertThat(weekResolverResult1.getWeekCode(), is("DPF202003"));
@@ -71,6 +71,6 @@ public class WeekResolverConnectorTest {
         assertThat(weekResolverResult1.getDate(), is(date));
 
         assertThrows(NullPointerException.class, () ->
-                connector.getWeekCode(null, null));
+                connector.getWeekCodeForDate(null, null));
     }
 }
