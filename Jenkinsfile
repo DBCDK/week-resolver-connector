@@ -47,7 +47,7 @@ pipeline {
 		}
 		stage("deploy") {
 			when {
-				branch "master"
+				branch "PRE-EE10"
 			}
 			steps {
 				sh "mvn jar:jar deploy:deploy"
