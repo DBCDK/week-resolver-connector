@@ -35,7 +35,6 @@ public class WeekResolverConnectorTest {
 
     @BeforeAll
     static void startWireMockServer() {
-
         wireMockServer = new WireMockServer(options().dynamicPort()
                 .dynamicHttpsPort());
         wireMockServer.start();
@@ -44,7 +43,7 @@ public class WeekResolverConnectorTest {
     }
 
     @BeforeAll
-    static void setConnector() throws WeekResolverConnectorException {
+    static void setConnector() {
         connector = new WeekResolverConnector(CLIENT, wireMockHost);
     }
 
@@ -55,24 +54,22 @@ public class WeekResolverConnectorTest {
 
     @Test
     public void testGetWeekcode() throws WeekResolverConnectorException {
-        Instant instant = Instant.ofEpochMilli(1576191600000L);
-        Date date = Date.from(instant);
 
         WeekResolverResult weekResolverResult =
                 connector.getWeekCode("DPF", LocalDate.parse("2019-10-10"));
-        assertThat(weekResolverResult.getWeekNumber(), is(43));
+        assertThat(weekResolverResult.getWeekNumber(), is(44));
         assertThat(weekResolverResult.getCatalogueCode(), is("DPF"));
-        assertThat(weekResolverResult.getWeekCode(), is("DPF201943"));
+        assertThat(weekResolverResult.getWeekCode(), is("DPF201944"));
         assertThat(weekResolverResult.getYear(), is(2019));
-        assertThat(weekResolverResult.getDate(), is(date));
+        assertThat(weekResolverResult.getDate(), is(Date.from(Instant.ofEpochMilli(1572476400000L))));
 
         WeekResolverResult weekResolverResult1 =
                 connector.getWeekCode("DPF", LocalDate.parse("2019-12-31"));
-        assertThat(weekResolverResult.getWeekNumber(), is(43));
+        assertThat(weekResolverResult.getWeekNumber(), is(44));
         assertThat(weekResolverResult1.getCatalogueCode(), is("DPF"));
-        assertThat(weekResolverResult1.getWeekCode(), is("DPF202003"));
+        assertThat(weekResolverResult1.getWeekCode(), is("DPF202004"));
         assertThat(weekResolverResult1.getYear(), is(2020));
-        assertThat(weekResolverResult1.getDate(), is(date));
+        assertThat(weekResolverResult1.getDate(), is(is(Date.from(Instant.ofEpochMilli(1579561200000L)))));
 
         assertThrows(NullPointerException.class, () ->
                 connector.getWeekCode(null, null));

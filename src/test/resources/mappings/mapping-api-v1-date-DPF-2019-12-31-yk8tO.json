@@ -1,0 +1,17 @@
+{
+  "id" : "2519697d-3a68-343b-9cec-1f724002b59d",
+  "request" : {
+    "url" : "/api/v1/date/DPF/2019-12-31",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-date-DPF-2019-12-31-yk8tO.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "2519697d-3a68-343b-9cec-1f724002b59d"
+}
