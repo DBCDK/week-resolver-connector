@@ -74,4 +74,19 @@ public class WeekResolverConnectorTest {
         assertThrows(NullPointerException.class, () ->
                 connector.getWeekCode(null, null));
     }
+
+    @Test
+    public void testGetCurrentWeekcode() throws WeekResolverConnectorException {
+
+        WeekResolverResult weekResolverResult =
+                connector.getCurrentWeekCode("BKM", LocalDate.parse("2023-06-16"));
+        assertThat(weekResolverResult.getWeekNumber(), is(25));
+        assertThat(weekResolverResult.getCatalogueCode(), is("BKM"));
+        assertThat(weekResolverResult.getWeekCode(), is("BKM202325"));
+        assertThat(weekResolverResult.getYear(), is(2023));
+        assertThat(weekResolverResult.getDate(), is(Date.from(Instant.ofEpochMilli(1687471200000L))));
+
+        assertThrows(NullPointerException.class, () ->
+                connector.getCurrentWeekCode(null, null));
+    }
 }
