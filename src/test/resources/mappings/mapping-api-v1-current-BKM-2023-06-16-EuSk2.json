@@ -1,0 +1,17 @@
+{
+  "id" : "bde8918e-54ce-37e3-8ce4-41dffd283de9",
+  "request" : {
+    "url" : "/api/v1/current/BKM/2023-06-16",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-current-BKM-2023-06-16-EuSk2.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "bde8918e-54ce-37e3-8ce4-41dffd283de9"
+}
