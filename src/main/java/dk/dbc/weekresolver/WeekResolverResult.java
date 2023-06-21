@@ -87,4 +87,14 @@ public class WeekResolverResult {
         return weekCode;
     }
 
+    @Override
+    public String toString() {
+        return "WeekResolverResult{" +
+                "weekNumber=" + weekNumber +
+                ", year=" + year +
+                ", catalogueCode='" + catalogueCode + '\'' +
+                ", weekCode='" + weekCode + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

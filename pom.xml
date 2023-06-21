@@ -12,13 +12,13 @@
   <parent>
     <groupId>dk.dbc</groupId>
     <artifactId>microservice-pom</artifactId>
-    <version>latest-SNAPSHOT</version>
+    <version>java11-old-payara5</version>
     <relativePath/>
   </parent>
 
 
   <artifactId>weekresolver-connector</artifactId>
-  <version>1.4-PRE-EE10-SNAPSHOT</version>
+  <version>1.5-PRE-EE10-SNAPSHOT</version>
   <name>weekresolver-connector</name>
 
   <distributionManagement>
